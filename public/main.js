@@ -129,7 +129,7 @@ for(i=1;i<5;i++){
     document.getElementById('must'+i).innerHTML = musts['must'+i]
 }
 }
-
+const socket = io();
 
 /*function check(){
     const ships = document.getElementsByClassName("selected")
