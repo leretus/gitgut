@@ -25,6 +25,7 @@ io.on('connection', (socket) => {
     }
 
     if (playerIndex === -1) {
+        console.log('dołączono ciote')
         return;
     }
 

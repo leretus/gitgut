@@ -1,6 +1,11 @@
 
 let letters = 'abcdefghij';
-
+let BattleshipGame = "";
+let playerNum = 0;
+let myturn = false;
+let enemyturn = false;
+let noships = false;
+let Shoted = -1;
 for(let i = 1; i <= 10; i++){
     for(let j = 0; j < 10; j++){
         let coordinate_x = letters[j];
@@ -130,6 +135,16 @@ for(i=1;i<5;i++){
 }
 }
 const socket = io();
-let BattleshipGame = "";
-let playerNum = 0;
-let ready = false;
+
+
+socket.on('player-number',num   =>
+    {
+        if(num === -1)
+            {
+                console.log('dołączono ciote')
+                const info_box = document.createElement('div')
+                info_box.classList.add('game-full')
+                info_box.innerHTML = "Game full"
+            }
+    }
+)
