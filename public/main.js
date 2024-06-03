@@ -130,31 +130,6 @@ for(i=1;i<5;i++){
 }
 }
 const socket = io();
-
-/*function check(){
-    const ships = document.getElementsByClassName("selected")
-    const chips = []
-    for (const ship of ships)
-        chips.push(ship.getAttribute('coordinates'));
-
-    for (const c{hip of chips){
-        const text_index = letters.indexOf(chip[0]);
-        const y_coordinate = Number(chip.replace(chip[0], ""));
-        console.log("y:" + y_coordinate)
-        console.log(text_index)
-        if (text_index == 0) {
-            const balls = document.getElementById(letters[text_index + 1] + y_coordinate);
-            console.log(balls.classList.contains("selected"))
-
-        } else if (text_index == 9)
-        {
-            const balls = document.getElementById(letters[text_index - 1] + y_coordinate);
-            console.log(balls.classList.contains("selected"))
-
-        }
-        
-    
-        
-    }
-}*/
-
+let BattleshipGame = "";
+let playerNum = 0;
+let ready = false;
