@@ -12,25 +12,42 @@ let noships = false;
 let Shoted = -1;
 const socket = io();
 
-
-socket.on('player-number', num   =>
-    {
-        
-        if(num === -1)
-            {
-                console.log('dołączono ciote');
-                document.getElementById('gamefull').style.visibility = 'inherit'
-                document.getElementById('allgame').style.visibility = 'hidden'
-            }
-        else{
-            
-            playerNum = parseInt(num)
-            if(playerNum = 1)
-                currentPlayer = "nieja"
+socket.on('player-number', num => {
+    if (num === -1) {
+        console.log('dołączono ciote');
+        document.getElementById('gamefull').style.visibility = 'inherit';
+        document.getElementById('allgame').style.visibility = 'hidden';
+    } else {
+        playerNum = parseInt(num);
+        console.log(playerNum);
+        if (playerNum === 1) {
+            currentPlayer = "nieja";
         }
-        
     }
-)
+});
+
+socket.on('playercon', num => {
+    console.log(num);
+    if (parseInt(num) === playerNum) {
+        let player = `.p${parseInt(num) + 1}`;
+        document.querySelector(`${player} .connect`).classList.toggle('green');
+    }
+});
+
+function startgame(socket) {
+    startbutton.style.visibility = 'hidden';
+    if(end)
+        return
+    if(!ready)
+        {
+            socket.emit()
+        }
+    socket.on('playercon', num => {
+        console.log(num);
+        let player = `.p${parseInt(num) + 1}`;
+        document.querySelector(`${player} .ready`).classList.toggle('green');
+    });
+}
 
 for(let i = 1; i <= 10; i++){
     for(let j = 0; j < 10; j++){
@@ -58,6 +75,16 @@ for(let i = 1; i <= 10; i++){
 
     }
 }
+const startbutton = document.getElementById('startbutt')
+startbutton.addEventListener('click',() =>{
+    if(noships)
+        startgame(socket)
+    else
+        alert('Umieść wszystkie statki')
+    }
+)
+
+
 function select(x,y) {
     let myfield = document.getElementById(x+y);
     let posible = true
@@ -67,6 +94,7 @@ function select(x,y) {
         
         let mustets = Number(myfield.getAttribute('musts'))
         musts['must'+mustets] +=1
+        noships = false;
         for(i = 0;i < mustets ; i++){
             myfield = document.getElementById(x+(y+i));
             if(y+i > 10 ||!myfield.classList.contains('selected') ){
@@ -148,8 +176,14 @@ function select(x,y) {
                         }
                     }
                 }
-                if(posible)
+                if(posible){
                     musts['must'+mustcount] -=1
+                if(musts['must1'] === 0 && musts['must2']  === 0 && musts['must3'] === 0  && musts['must4'] === 0  )
+                {
+                    noships = true;
+                }
+                }
+                    
             }
         }
     }

@@ -5,10 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <script src="/socket.io/socket.io.js"></script>
-    
-</head>
+    </head>
 <body>
     <div id="gamefull">Server full</div>
+    <div class="top">
+        <div class="player p1">
+            Gracz 1
+            <div class="connect">Połączono</div>
+            <div class="ready">Gotowy</div>
+        </div>
+        <button id="startbutt">GOTOWY</button>
+        <div class="player p2">
+            Gracz 2
+            <div class="connect">Połączono</div>
+            <div class="ready">Gotowy</div>
+        </div>
+    </div>
+    
     <div id="allgame">
     <div class="allboard">
         <div id="cba0" class="clearfix"></div>
@@ -21,13 +34,13 @@
         <div id="enemyboard"></div>
     </div>
     <div class="musts"> 
-        <button onclick="one()" id="must1"></button>
+        <button onclick="one()" class="pio" id="must1"></button>
             <img src="img/1must.png" alt="">
-        <button onclick="two()" id="must2"></button>
+        <button onclick="two()" class="pio" id="must2"></button>
             <img src="img/2mustl.png" alt="">
-        <button onclick="three()" id="must3"></button>
+        <button onclick="three()" class="pio" id="must3"></button>
             <img src="img/3mustl.png" alt="">
-        <button onclick="four()" id="must4"></button>
+        <button onclick="four()" class="pio" id="must4"></button>
             <img src="img/4mustl.png" alt="">
     </div>
     </div>

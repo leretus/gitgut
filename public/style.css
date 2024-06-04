@@ -1,12 +1,78 @@
 *{
     margin: 0px;
     padding: 0px;
+    box-sizing: border-box;
 }
+body{
+    background-color:rgb(79,79,79);
+}
+.pio{
+    margin: 5px;
+    padding: 5px;
+}
+.musts{
+    margin: auto;
+    display: flex;
+    width: 500px;
+    height: 50px;
+}
+.connect{
+    border-top: 1px black dotted;
+}
+.musts button:hover{
+    background-color: #636363;
+}
+.musts button{
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    color: rgb(31, 86, 31);
+    font-size: 20px;
+    border: none;
+    background-color: #909090;
+    color: black;
+}
+.player {
+    font-weight: bold;
+    border: 3px dotted black;
+    padding: 10px;
+    display: inline-block;
+    text-align: center;
+}
+.top button{
+    color: rgb(31, 86, 31);
+    font-weight: bold;
+    font-size: 20px;
+    border: none;
+    background-color: #909090;
+    color: black;
+}
+.top {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    width: 100%;
+    padding: 10px 40px; 
+    background: linear-gradient(0deg, #4F4F4F 0%, #909090 100%);
+    background-color: rgb(144,144,144);
+}
+
+
 .field{
     width: 50px;
     height: 50px;
+    background-color: white ;
     border: 1px black solid;
     float: left;
+}
+#startbutt{
+    width: 100px;
+    height: 50px;
+    cursor: pointer;
+}
+#allgame{
+    width: 1200px;
+    margin: auto;
 }
 .must{
     border: 1px black solid;
@@ -62,11 +128,7 @@
     clear: both;
     display: table;
   }
-.musts{
-    width: 100px;
-    height: 100px;
-    margin :50px;
-}
+
 .occupied{
     background-color: brown;
 }
@@ -94,3 +156,9 @@
     background-color: black;
     visibility: hidden;
 }
+.green{
+    color: rgb(17, 87, 17);
+}
+
+
+

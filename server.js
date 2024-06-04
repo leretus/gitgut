@@ -12,30 +12,32 @@ const io = socketio(server);
 app.use(express.static(path.join(__dirname, 'public')));
 
 server.listen(PORT, () => console.log(`Port: ${PORT}`));
+
 const connections = [null, null];
 
 io.on('connection', (socket) => {
     let playerIndex = -1;
+
     for (let i = 0; i < connections.length; i++) {
         if (connections[i] === null) {
             playerIndex = i;
-            connections[i] = socket; 
+            connections[i] = socket;
             break;
         }
     }
 
-    
-
     socket.emit('player-number', playerIndex);
-    
-    
+
     if (playerIndex === -1) {
         return;
     }
-    
+
+    socket.broadcast.emit('playercon', playerIndex);
     console.log(`Połączono gracza ${playerIndex}`);
+
     socket.on('disconnect', () => {
         console.log(`Rozłączono gracza ${playerIndex}`);
-        connections[playerIndex] = null; 
+        connections[playerIndex] = null;
+        socket.broadcast.emit('playercon', playerIndex);
     });
 });
