@@ -24,14 +24,16 @@ io.on('connection', (socket) => {
         }
     }
 
-    if (playerIndex === -1) {
-        console.log('dołączono ciote')
-        return;
-    }
+    
 
     socket.emit('player-number', playerIndex);
+    
+    
+    if (playerIndex === -1) {
+        return;
+    }
+    
     console.log(`Połączono gracza ${playerIndex}`);
-
     socket.on('disconnect', () => {
         console.log(`Rozłączono gracza ${playerIndex}`);
         connections[playerIndex] = null; 

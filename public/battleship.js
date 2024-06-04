@@ -1,4 +1,5 @@
 let mustcount = 0;
+let letters = 'abcdefghij';
 const musts = {
     "must1": 4,
     "must2": 3,

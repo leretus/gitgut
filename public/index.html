@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <script src="/socket.io/socket.io.js"></script>
-    <script src="app.js"></script>    
+    
 </head>
 <body>
+    <div id="gamefull">Server full</div>
+    <div id="allgame">
     <div class="allboard">
         <div id="cba0" class="clearfix"></div>
         <div id="abc0" class="clearfix"></div>
@@ -28,8 +30,9 @@
         <button onclick="four()" id="must4"></button>
             <img src="img/4mustl.png" alt="">
     </div>
+    </div>
     <script src="battleship.js"></script>
-    <script src="main.js"></script>
+    <script src="app.js"></script>    
     <script src="css.js"></script>
 </body>
 </html>
