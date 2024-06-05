@@ -52,6 +52,21 @@ io.on('connection', (socket) => {
                 ? { connected: false, ready: false } 
                 : { connected: true, ready: connection === true }
         );
-        socket.emit('check-players', players);
+        socket.emit('check-players',players);
     });
+    socket.on('ships', ships => {
+        console.log(`Player ${playerIndex} ships: ${ships}`);
+        socket.broadcast.emit('enships', ships);
+    });
+
+    socket.on('fire', id => {
+        console.log(id)
+        socket.broadcast.emit('lost', id)
+    });
+
+    socket.on('miss', id => {
+        console.log(id)
+        socket.broadcast.emit('myturn', id)
+    });
+
 });

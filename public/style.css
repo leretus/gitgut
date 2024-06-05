@@ -130,7 +130,9 @@ body{
   }
 
 .occupied{
-    background-color: brown;
+    font-size:50px;
+    color: black;
+    text-align: center;
 }
 .selected{
     background-color: black;
@@ -158,6 +160,9 @@ body{
 }
 .green{
     color: rgb(17, 87, 17);
+}
+.red{
+    background-color:red;
 }
 
 

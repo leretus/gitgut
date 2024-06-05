@@ -3,10 +3,9 @@ document.addEventListener('DOMContentLoaded', workpls =>
     {
 const enemyFields = [];
 const ships = [];
-const enships = [];
-const myFields= [];
+const enships = []
+const myFields= []; 
 let end = false;
-let BattleshipGame = "";
 let currentPlayer = 'user';
 let playerNum = 0;
 let ready = false;
@@ -29,6 +28,14 @@ socket.on('player-number', num => {
         socket.emit('check-players')
       }
 });
+socket.on('enships', enemyShips => {
+        console.log(enemyShips)
+        for(let i in enemyShips){
+            enships[i] = enemyShips[i]
+        }
+        console.log(enships)
+        
+});
 socket.on('enemy-ready', num=>{
     enemyready = true;
     playerReady(num)
@@ -47,10 +54,11 @@ function startgame(socket) {
         return
     if(!ready)
         {
+            console.log(enships)
             socket.emit('player-ready')
             ready = true
             playerReady(playerNum)
-
+            socket.emit('ships',ships)
         }
     if(enemyready)
         if(currentPlayer === 'user')
@@ -64,14 +72,42 @@ function startgame(socket) {
         field.addEventListener('click', () => {
             if(currentPlayer === 'user' && ready && enemyready) {
                 Shoted = field.dataset.coordinates
-                socket.emit('fire', Shoted)
-                console.log(Shoted)
+                let guesf = document.getElementById('enemyboard').querySelector('#' + Shoted)
+                if(guesf.classList.contains('selected')|| guesf.classList.contains('occupied'))
+                    alert('no debil no')
+                else{
+                if(enships.includes(Shoted)){
+                    console.log('congratulations');
+                    socket.emit('fire',Shoted)
+                    guesf.classList.add('selected');
+
+                }
+                else
+                {
+                    turnds.innerHTML ="Obecna tura: NIE TY"
+                    currentPlayer = 'enemy'
+                    guesf.classList.add('occupied');
+                    guesf.innerHTML = 'X'
+                    socket.emit('miss', Shoted);
+                }
+                }
+                    
             }
           })
     }  )
 
 }
-
+socket.on('lost',id=>{  
+    let losttile = document.getElementById(id)
+    losttile.classList.add('red')
+    losttile.classList.remove('selected')
+})
+socket.on('myturn',id=>{
+    currentPlayer = 'user'
+    let tile = document.getElementById(id)
+    tile.classList.add('occupied')
+    turnds.innerHTML = "Obecna tura: TY"
+})
 function playerReady(num){
     let player = `.p${parseInt(num) + 1}`;
     document.querySelector(`${player} .ready`).classList.toggle('green');
@@ -145,20 +181,31 @@ function select(x,y) {
         noships = false;
         for(i = 0;i < mustets ; i++){
             myfield = document.getElementById(x+(y+i));
+            let ship = x+(y+i)
+            let shipIndex = ships.findIndex(element => element === ship);
+            if (shipIndex !== -1) {
+                ships.splice(shipIndex, 1);
+            }
             if(y+i > 10 ||!myfield.classList.contains('selected') ){
                 for(j = 0;j < mustets-i+1; j++){
                     console.log(x+(y-j))
+                    ship = x+(y-j)
+                    shipIndex = ships.findIndex(element => element === ship);
+                    if (shipIndex !== -1) {
+                        ships.splice(shipIndex, 1);
+                    }
                     myfield = document.getElementById(x+(y-j));
                     myfield.classList.remove('selected');
                 }
                 break  
             }
+            
             myfield.classList.remove('selected');
             
         }
       
         
-            
+        console.log(ships)
     }
     else{
         if(musts['must'+mustcount] !=0){
@@ -221,11 +268,14 @@ function select(x,y) {
                         if (!field.classList.contains('selected')){
                             field.classList.add('selected');
                             field.setAttribute('musts',mustcount);
+                            let ship = x + (y+j)
+                            ships.push(ship)
                         }
                     }
                 }
                 if(posible){
                     musts['must'+mustcount] -=1
+
                 if(musts['must1'] === 0 && musts['must2']  === 0 && musts['must3'] === 0  && musts['must4'] === 0  )
                 {
                     noships = true;
