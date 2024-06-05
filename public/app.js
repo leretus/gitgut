@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', workpls =>
     {
 const enemyFields = [];
 const ships = [];
-const enships = []
-const myFields= []; 
+const enships = [];
+let win = false;
 let end = false;
 let currentPlayer = 'user';
 let playerNum = 0;
@@ -13,7 +13,14 @@ let enemyready = false;
 let noships = false;
 let Shoted = -1;
 const socket = io();
-
+let shipco = 0;
+function endgame(){
+    end = true
+    if(win)
+        alert('wygrłeś')
+    else
+        alert('porażka')
+}
 socket.on('player-number', num => {
     if (num === -1) {
         console.log('dołączono ciote');
@@ -70,25 +77,46 @@ function startgame(socket) {
         }
     enemyFields.forEach(field =>{
         field.addEventListener('click', () => {
-            if(currentPlayer === 'user' && ready && enemyready) {
+            if(currentPlayer === 'user' && ready && enemyready && !end) {
                 Shoted = field.dataset.coordinates
                 let guesf = document.getElementById('enemyboard').querySelector('#' + Shoted)
                 if(guesf.classList.contains('selected')|| guesf.classList.contains('occupied'))
-                    alert('no debil no')
+                    return
                 else{
                 if(enships.includes(Shoted)){
+                    shipco +=1;
                     console.log('congratulations');
                     socket.emit('fire',Shoted)
                     guesf.classList.add('selected');
-
+                    const ociec = document.getElementById('log')
+                    const kom = document.createElement('p')
+                    kom.innerHTML = 'trafiony';
+                    document.getElementById('log').appendChild(kom)
+                    ociec.insertBefore(kom, ociec.firstChild);
+                    console.log(shipco)
+                    if(shipco === 20){
+                        console.log(win)
+                        win = true
+                        endgame()
+                        socket.emit('L',shipco)
+                    }
                 }
                 else
                 {
+                    
                     turnds.innerHTML ="Obecna tura: NIE TY"
                     currentPlayer = 'enemy'
+                    const ociec = document.getElementById('log')
+                    const kom = document.createElement('p')
+                    kom.innerHTML = 'pudło';
+                    document.getElementById('log').appendChild(kom)
+                    ociec.insertBefore(kom, ociec.firstChild);
                     guesf.classList.add('occupied');
                     guesf.innerHTML = 'X'
                     socket.emit('miss', Shoted);
+                    
+                    
+                        
                 }
                 }
                     
@@ -97,6 +125,11 @@ function startgame(socket) {
     }  )
 
 }
+socket.on('enwin',()=>{
+    endgame()
+})
+
+
 socket.on('lost',id=>{  
     let losttile = document.getElementById(id)
     losttile.classList.add('red')

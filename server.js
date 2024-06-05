@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const http = require('http');
 const socketio = require('socket.io');
+const { on } = require('events');
 
 const PORT = process.env.PORT || 3000;
 
@@ -68,5 +69,9 @@ io.on('connection', (socket) => {
         console.log(id)
         socket.broadcast.emit('myturn', id)
     });
+    socket.on('L',() =>{
+        socket.broadcast.emit("enwin")
+    }
+    )
 
 });

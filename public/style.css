@@ -95,7 +95,7 @@ body{
     text-align: center;
     float: left;
     height: 20px;
-    width: 52px;
+    width: 50px;
 }
 .desca{
     text-align: center;
@@ -105,7 +105,7 @@ body{
 }
 #cba1{
     float: left;
-    width: 540px;
+    width: 530px;
     height: 20px;
 }
 #abc1{
@@ -115,7 +115,7 @@ body{
 }
 #cba0{
     float: left;
-    width: 540px;
+    width: 530px;
     height: 20px;
 }
 #abc0{
@@ -166,4 +166,23 @@ body{
 }
 
 
-
+.log-header {
+    color: #000000;
+    border-bottom: 2px solid #282521;
+    padding: 10px;
+  }
+  
+  .log-box {
+    text-align: center;
+    overflow: hidden;
+    margin: 10px;
+    top: 20%;
+    right: 0%;
+    height: 550px;
+    width: 100px;
+    position: absolute;
+    border: 1px solid #312d26;
+    background-color: #5b4e46;
+    border-radius: 25px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  }
