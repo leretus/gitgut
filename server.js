@@ -18,7 +18,7 @@ const connections = [null, null];
 io.on('connection', (socket) => {
     let playerIndex = -1;
 
-    for (let i = 0; i < connections.length; i++) {
+    for (const i in connections) {
         if (connections[i] === null) {
             playerIndex = i;
             connections[i] = socket;
@@ -39,5 +39,19 @@ io.on('connection', (socket) => {
         console.log(`Rozłączono gracza ${playerIndex}`);
         connections[playerIndex] = null;
         socket.broadcast.emit('playercon', playerIndex);
+    });
+
+    socket.on('player-ready', () => {
+        socket.broadcast.emit('enemy-ready', playerIndex);
+        connections[playerIndex] = true;
+    });
+
+    socket.on('check-players', () => {
+        const players = connections.map(connection => 
+            connection === null 
+                ? { connected: false, ready: false } 
+                : { connected: true, ready: connection === true }
+        );
+        socket.emit('check-players', players);
     });
 });

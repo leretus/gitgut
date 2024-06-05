@@ -1,13 +1,16 @@
 
 document.addEventListener('DOMContentLoaded', workpls =>
     {
-
-
+const enemyFields = [];
+const ships = [];
+const enships = [];
+const myFields= [];
+let end = false;
 let BattleshipGame = "";
-let currentPlayer = 'ja';
+let currentPlayer = 'user';
 let playerNum = 0;
-let myturn = false;
-let enemyturn = false;
+let ready = false;
+let enemyready = false;
 let noships = false;
 let Shoted = -1;
 const socket = io();
@@ -18,20 +21,24 @@ socket.on('player-number', num => {
         document.getElementById('gamefull').style.visibility = 'inherit';
         document.getElementById('allgame').style.visibility = 'hidden';
     } else {
-        playerNum = parseInt(num);
-        console.log(playerNum);
-        if (playerNum === 1) {
-            currentPlayer = "nieja";
-        }
-    }
-});
+        playerNum = parseInt(num)
+        if(playerNum === 1) 
+            currentPlayer = "enemy"
 
+        console.log(playerNum)
+        socket.emit('check-players')
+      }
+});
+socket.on('enemy-ready', num=>{
+    enemyready = true;
+    playerReady(num)
+    if(ready) 
+        startgame(socket)
+}
+)
 socket.on('playercon', num => {
-    console.log(num);
-    if (parseInt(num) === playerNum) {
-        let player = `.p${parseInt(num) + 1}`;
-        document.querySelector(`${player} .connect`).classList.toggle('green');
-    }
+    let player = `.p${parseInt(num) + 1}`;
+    document.querySelector(`${player} .connect`).classList.toggle('green');
 });
 
 function startgame(socket) {
@@ -40,14 +47,54 @@ function startgame(socket) {
         return
     if(!ready)
         {
-            socket.emit()
+            socket.emit('player-ready')
+            ready = true
+            playerReady(playerNum)
+
         }
-    socket.on('playercon', num => {
-        console.log(num);
-        let player = `.p${parseInt(num) + 1}`;
-        document.querySelector(`${player} .ready`).classList.toggle('green');
-    });
+    if(enemyready)
+        if(currentPlayer === 'user')
+        {
+            turnds.innerHTML = "Obecna tura: TY"
+        }
+        else{
+            turnds.innerHTML ="Obecna tura: NIE TY"
+        }
+    enemyFields.forEach(field =>{
+        field.addEventListener('click', () => {
+            if(currentPlayer === 'user' && ready && enemyready) {
+                Shoted = field.dataset.coordinates
+                socket.emit('fire', Shoted)
+                console.log(Shoted)
+            }
+          })
+    }  )
+
 }
+
+function playerReady(num){
+    let player = `.p${parseInt(num) + 1}`;
+    document.querySelector(`${player} .ready`).classList.toggle('green');
+
+}
+    socket.on('check-players', players => {
+      players.forEach((p, i) => {
+        if(p.connected) blabla(i)
+        if(p.ready) {
+          playerReady(i)
+          if(i !== playerReady) 
+            enemyReady = true
+        }
+      })
+  
+        
+    });
+ function blabla(num){
+    if (parseInt(num) === playerNum) {
+        let player = `.p${parseInt(num) + 1}`;
+        document.querySelector(`${player} .connect`).classList.toggle('green');
+    }
+ }
 
 for(let i = 1; i <= 10; i++){
     for(let j = 0; j < 10; j++){
@@ -69,10 +116,10 @@ for(let i = 1; i <= 10; i++){
         const field = document.createElement('div');
         field.setAttribute('id',coordinate_x+coordinate_y);
         field.setAttribute('coordinates',coordinate_x+coordinate_y);
-        field.addEventListener('click',() => guess(coordinate_x,coordinate_y));
         field.classList.add('field');
         document.getElementById('enemyboard').appendChild(field);
-
+        field.dataset.coordinates = coordinate_x + coordinate_y
+        enemyFields.push(field)
     }
 }
 const startbutton = document.getElementById('startbutt')
@@ -86,6 +133,7 @@ startbutton.addEventListener('click',() =>{
 
 
 function select(x,y) {
+    if(!ready){
     let myfield = document.getElementById(x+y);
     let posible = true
     let xer = letters.indexOf(x)
@@ -187,6 +235,7 @@ function select(x,y) {
             }
         }
     }
+}
 }
 setInterval(how,1)
 function how(){
