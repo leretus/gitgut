@@ -141,10 +141,11 @@ socket.on('myturn',id=>{
     tile.classList.add('occupied')
     turnds.innerHTML = "Obecna tura: TY"
 })
+//Showing connection
 function playerReady(num){
     let player = `.p${parseInt(num) + 1}`;
     document.querySelector(`${player} .ready`).classList.toggle('green');
-
+    
 }
     socket.on('check-players', players => {
       players.forEach((p, i) => {
@@ -159,10 +160,14 @@ function playerReady(num){
         
     });
  function blabla(num){
-    if (parseInt(num) === playerNum) {
-        let player = `.p${parseInt(num) + 1}`;
+    let player = `.p${parseInt(num) + 1}`;
+        
         document.querySelector(`${player} .connect`).classList.toggle('green');
-    }
+    if (parseInt(num) === playerNum) console.log('Połączono');
+        
+    
+    else console.log('Połączono przeciwnika') ;
+    
  }
 
 for(let i = 1; i <= 10; i++){
